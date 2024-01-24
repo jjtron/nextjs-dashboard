@@ -16,7 +16,10 @@ const {
     users,
 } = require('../app/lib/placeholder-data.js');
 
-client.connect(() => {
+async function main() {
+
+    await client.connect();
+
     console.log('Connected to PostgreSQL database!');
 
     // CREATE users TABLE
@@ -83,6 +86,9 @@ client.connect(() => {
     });
 
     client.end;
-});
+    return;
+}
+
+main();
 
 
