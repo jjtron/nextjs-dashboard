@@ -4,6 +4,9 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { lusitana } from '@/app/ui/fonts';
 import Image from 'next/image';
+import Mybutton from '@/app/ui/dashboard/my-button';
+
+const mylink: string = 'http://localhost:3000/dashboard/invoices/create';
 
 export default function Page() {
   return (
@@ -29,6 +32,8 @@ export default function Page() {
           >
             <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
+          
+          <Mybutton varble1="text-blue-500" varble2={`${mylink}`} />
         </div>
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
           {/* Add Hero Images Here */}

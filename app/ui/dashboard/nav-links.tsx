@@ -25,10 +25,14 @@ const links = [
 export default function NavLinks() {
   const pathname = usePathname();
   let pathexp = "null";
+  let mypath: any = [];
+
   return (
     <>
+      
       {links.map((link) => {
-        pathexp = link.href;
+
+        mypath.push(link.href);
         const LinkIcon = link.icon;
         return (
           <Link
@@ -46,7 +50,7 @@ export default function NavLinks() {
           </Link>
         );
       })}
-      <Mybutton varble1="text-blue-500" varble2={pathexp} />
+      <Mybutton varble1="text-blue-500" varble2={`${mypath[1]}/create`} />
     </>
   );
 }

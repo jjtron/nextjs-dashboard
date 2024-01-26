@@ -1,10 +1,10 @@
+'use client';
 import clsx from "clsx";
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 export default function Mybutton({varble1, varble2} : {varble1: string; varble2: string}) {
   return <div className={`${varble1}`}>
-    {usePathname()}
     <div className={
       clsx(
         'font-medium',
