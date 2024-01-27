@@ -10,6 +10,7 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
+
 const client = new Client({
   user: 'jjtron',
   host: 'localhost',
@@ -19,8 +20,8 @@ const client = new Client({
 });
 client.connect();
 
-export async function insertInvoice(insertQuery: any) {
-  client.query(insertQuery);
+export async function mutateInvoiceData(mutateQuery: any) {
+  await client.query(mutateQuery);
 };
 
 export async function fetchRevenue() {
@@ -170,7 +171,7 @@ export async function fetchInvoiceById(id: string) {
         invoices.amount,
         invoices.status
       FROM invoices
-      WHERE invoices.id = ${id};
+      WHERE invoices.id = '${id}';
     `);
 
     const invoice = data.rows.map((invoice) => ({
