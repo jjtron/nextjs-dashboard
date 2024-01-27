@@ -2,6 +2,8 @@
 import { z } from 'zod';
 import { insertInvoice } from '@/app/lib/data';
 import { v4 as uuidv4 } from 'uuid';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 const FormSchema = z.object({
   id: z.string(),
@@ -22,9 +24,11 @@ export async function createInvoice(formData: FormData) {
   const amountInCents = amount * 100;
   const date = new Date().toISOString().split('T')[0];
 
-
   insertInvoice(`
       INSERT INTO invoices (id, customer_id, amount, status, date)
       VALUES ('${uuidv4()}', '${customerId}', ${amountInCents}, '${status}', '${date}')
   `);
+
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
 }
