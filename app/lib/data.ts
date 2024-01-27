@@ -18,6 +18,11 @@ const client = new Client({
   port: 5432,
 });
 client.connect();
+
+export async function insertInvoice(insertQuery: any) {
+  client.query(insertQuery);
+};
+
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
