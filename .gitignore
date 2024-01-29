@@ -37,3 +37,5 @@ next-env.d.ts
 
 # miscellaneous
 /scripts/myseed.js
+/scripts/scratch.ts
+/scripts/scratch.js

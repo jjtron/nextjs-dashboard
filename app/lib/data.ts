@@ -10,6 +10,7 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
+import { Result } from 'postcss';
 
 const client = new Client({
   user: 'jjtron',
@@ -21,7 +22,12 @@ const client = new Client({
 client.connect();
 
 export async function mutateInvoiceData(mutateQuery: any) {
-  await client.query(mutateQuery);
+  try {
+    const result: any = await client.query(mutateQuery);
+    return {success: true, details: result};
+  } catch(error: any) {
+      return {succes: false, details: error};
+  }
 };
 
 export async function fetchRevenue() {

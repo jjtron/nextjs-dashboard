@@ -42,7 +42,7 @@ async function main() {
     client.query(`CREATE TABLE IF NOT EXISTS invoices (
         id VARCHAR(255) DEFAULT 0 PRIMARY KEY,
         customer_id VARCHAR(255) NOT NULL,
-        amount INT NOT NULL,
+        amount FLOAT8 NOT NULL,
         status VARCHAR(255) NOT NULL,
         date DATE NOT NULL)
     `);

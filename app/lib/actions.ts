@@ -16,9 +16,14 @@ const FormSchema = z.object({
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
  
-// ...
 export async function deleteInvoice(id: string) {
-  mutateInvoiceData(`DELETE FROM invoices WHERE id = '${id}'`);
+  const result = await mutateInvoiceData(`DELETE FROM invoices WHERE id = '${id}'`);
+
+  if (result.success) {
+  } else {
+    throw new Error('Database Error: Failed to update delete data.');
+  }
+  
   revalidatePath('/dashboard/invoices');
 }
  
@@ -31,11 +36,16 @@ export async function updateInvoice(id: string, formData: FormData) {
  
   const amountInCents = amount * 100;
 
-  mutateInvoiceData(`
+  const result = await mutateInvoiceData(`
     UPDATE invoices
     SET customer_id = '${customerId}', amount = '${amountInCents}', status = '${status}'
     WHERE id = '${id}'
   `);
+
+  if (result.success) {
+  } else {
+    throw new Error('Database Error: Failed to update delete data.');
+  }
  
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
@@ -50,10 +60,15 @@ export async function createInvoice(formData: FormData) {
   const amountInCents = amount * 100;
   const date = new Date().toISOString().split('T')[0];
 
-  mutateInvoiceData(`
+  const result = await mutateInvoiceData(`
       INSERT INTO invoices (id, customer_id, amount, status, date)
       VALUES ('${uuidv4()}', '${customerId}', ${amountInCents}, '${status}', '${date}')
   `);
+
+  if (result.success) {
+  } else {
+    throw new Error('Database Error: Failed to update delete data.');
+  }
 
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
