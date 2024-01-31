@@ -1,5 +1,6 @@
 import { Client } from 'pg';
 import { v4 as uuidv4 } from 'uuid';
+const bcrypt = require('bcrypt');
  
 const client = new Client({
     user: 'jjtron',
@@ -23,17 +24,19 @@ async function main() {
     console.log('Connected to PostgreSQL database!');
 
     // CREATE users TABLE
-    client.query(`DROP TABLE IF EXISTS users;`);
-    client.query(`CREATE TABLE IF NOT EXISTS users (
+    await client.query(`DROP TABLE IF EXISTS users;`);
+    await client.query(`CREATE TABLE IF NOT EXISTS users (
             id VARCHAR(255) DEFAULT 0 PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             email TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL)
     `);
-    users.map((user: {id: string, name: string, email: string, password: string}) => {
+
+    users.map(async (user: {id: string, name: string, email: string, password: string}) => {
+        const password = await bcrypt.hash(user.password, 10);
         client.query(`
             INSERT INTO users (id, name, email, password)
-            VALUES ('${user.id}', '${user.name}', '${user.email}', '${user.password}')
+            VALUES ('${user.id}', '${user.name}', '${user.email}', '${password}')
             ON CONFLICT (id) DO NOTHING;`)
     });
 
